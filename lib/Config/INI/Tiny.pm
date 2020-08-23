@@ -77,7 +77,7 @@ your configuration files E<mdash> you can.
 
 =head2 C<new>
 
-Instatiates an INI parser with the specified configuration.
+Instantiates an INI parser with the specified configuration.
 
 The parsed form consists of a list of sections as they appeared in the configuration,
 each represented by an array.
@@ -208,7 +208,7 @@ other values:
      ${ hash_path_ref %$section, split ' ', $_->[0] } = $_->[1] for @kv;
  }
 
-This interprets spaces in section and propertie names as path separators,
+This interprets spaces in section and property names as path separators,
 allowing a value like C<< $config->{'de'}{'error'}{'syntax'} >> to be specified
 in any one of the following ways, interchangeably:
 
@@ -263,7 +263,7 @@ sections or properties.
 
 This is a clone of L<Config::Tiny> with a more complex data structure, allowing
 it to preserve the order and recurrence of properties within sections. Section
-order and recurrence is still discarded. There is no other change in tradeoffs.
+order and recurrence is still discarded. There is no other change in trade-offs.
 
 The shape of its output data structure is easy to replicate with this module,
 as shown L<in the cookbook|/Emulating Config::Tiny::Ordered>.
@@ -272,7 +272,7 @@ as shown L<in the cookbook|/Emulating Config::Tiny::Ordered>.
 
 An attempt at making L<Config::Tiny> flexible by breaking out the steps in the
 parser as methods, which allows parsing a different syntax. Tweaking is done by
-subclassing, which is cumbersome. If you wish to avoid reimplemting large parts
+subclassing, which is cumbersome. If you wish to avoid reimplementing large parts
 of the module in your subclass, you are constrained by the existing call graph,
 so you must stay fairly close to both the original format and the default data
 structure shape. In other words, you can parse any format into any output, so
