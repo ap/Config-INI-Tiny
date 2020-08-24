@@ -3,7 +3,7 @@ use Carp ();
 
 package Config::INI::Tiny;
 
-our $VERSION = '0.101';
+our $VERSION = '0.102';
 
 sub new { my $class = shift; bless { section0 => '', line0 => 0, pairs => 0, @_ }, $class }
 
