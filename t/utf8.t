@@ -3,7 +3,7 @@ use 5.006; use strict; use warnings;
 use Test::More;
 
 BEGIN {
-	plan eval { require utf8 } ? ( tests => 2 ) : ( skip_all => 'need utf8 pragma' );
+	plan eval { require utf8 } ? ( tests => 1 ) : ( skip_all => 'need utf8 pragma' );
 	utf8->import;
 }
 

@@ -1,6 +1,6 @@
 use 5.006; use strict; use warnings;
 
-use Test::More tests => 26;
+use Test::More tests => 25;
 use Config::INI::Tiny ();
 
 sub p { scalar( /./g ); Config::INI::Tiny->new(@_)->to_hash($_) }
