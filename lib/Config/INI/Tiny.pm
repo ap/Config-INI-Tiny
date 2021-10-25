@@ -195,7 +195,7 @@ other values:
 
 =head2 Flexibly nestable sections and properties
 
- sub hash_path_ref (%;@) {
+ sub hash_path_ref (\%;@) {
      my $hash = shift;
      $hash = $hash->{ $_ } ||= {} for @_[ -@_ .. -2 ];
      \$hash->{ $_[-1] };
