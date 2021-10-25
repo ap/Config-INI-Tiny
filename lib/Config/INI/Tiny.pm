@@ -184,7 +184,7 @@ Consider the following configuration:
  ip = 192.168.0.17
  ip = 10.0.1.253
 
-When using L</read_config>, this would simply store C<10.0.1.253> as the IP for
+When using L</to_hash>, this would simply store C<10.0.1.253> as the IP for
 C<eth0>, with the C<192.168.0.17> value irretrievably lost. L<Hash::MultiValue>
 defaults to the same behaviour, but optionally allows you to still retrieve all
 other values:
