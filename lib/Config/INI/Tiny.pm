@@ -172,6 +172,8 @@ where each pair is represented by a hash with two keys named C<key> and C<value>
 
 =head2 Multi-value (and order-preserving) properties
 
+ use Hash::MultiValue;
+ 
  my $config;
  for ( Config::INI::Tiny->new->parse( $content ) ) {
      my $section = $config->{ shift @$_ } ||= Hash::MultiValue->new;
