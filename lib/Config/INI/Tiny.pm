@@ -160,9 +160,9 @@ The name of the property cannot be empty, but the value can.
 =head2 Emulating L<Config::Tiny::Ordered>
 
  my $config;
- for ( Config::INI::Tiny->new( section0 => '_', pairs => 1 )->parse( $content ) ) {
-     my $section = shift @$_;
-     push @{ $config->{ $section } }, map +{ key => $_->[0], value => $_->[1] }, @$_;
+ for my $s_kv ( Config::INI::Tiny->new( section0 => '_', pairs => 1 )->parse( $content ) ) {
+     my $section_name = shift @$s_kv;
+     push @{ $config->{ $section_name } }, map +{ key => $_->[0], value => $_->[1] }, @$s_kv;
  };
 
 The resulting data structure is a hash of arrays instead of the hash of hashes
@@ -175,9 +175,10 @@ where each pair is represented by a hash with two keys named C<key> and C<value>
  use Hash::MultiValue;
  
  my $config;
- for ( Config::INI::Tiny->new->parse( $content ) ) {
-     my $section = $config->{ shift @$_ } ||= Hash::MultiValue->new;
-     $section->merge_flat( @$_ );
+ for my $s_kv ( Config::INI::Tiny->new->parse( $content ) ) {
+     my $section_name = shift @$s_kv;
+     my $section = $config->{ $section_name } ||= Hash::MultiValue->new;
+     $section->merge_flat( @$s_kv );
  }
 
 Consider the following configuration:
@@ -204,10 +205,10 @@ other values:
  }
  
  my $config = {};
- for ( Config::INI::Tiny->new( pairs => 1 )->parse( $content ) ) {
-     my ( $section_name, @kv ) = @$_;
+ for my $s_kv ( Config::INI::Tiny->new( pairs => 1 )->parse( $content ) ) {
+     my $section_name = shift @$s_kv;
      my $section = ${ hash_path_ref %$config, split ' ', $section_name } ||= {};
-     ${ hash_path_ref %$section, split ' ', $_->[0] } = $_->[1] for @kv;
+     ${ hash_path_ref %$section, split ' ', $_->[0] } = $_->[1] for @$s_kv;
  }
 
 This interprets spaces in section and property names as path separators,
