@@ -1,6 +1,6 @@
 use 5.006; use strict; use warnings;
 
-use Test::More tests => 25;
+use Test::More tests => 26;
 use Config::INI::Tiny ();
 
 BEGIN { defined &explain or *explain = sub {
@@ -13,7 +13,8 @@ BEGIN { defined &explain or *explain = sub {
 } }
 
 # mess up the pos() as a cheap fuzz test of the parser
-sub h { pos = rand length; eval { Config::INI::Tiny->new(@_)->to_hash($_) } or ( warn, return ) }
+sub h { pos = rand length; eval {   Config::INI::Tiny->new(@_)->to_hash($_) } or ( warn, return ) }
+sub p { pos = rand length; eval { [ Config::INI::Tiny->new(@_)->parse($_) ] } or ( warn, return ) }
 
 is_deeply h, {}, 'empty string' for '';
 
@@ -121,6 +122,15 @@ foo=1
 
 is_deeply h( section0 => '_' ), { _ => {} }, '... and proper merging' for <<'';
 [_]
+
+is_deeply p( pairs => 1 ), [ [ '' ], [ section => [ foo => 1 ] ], [ 'empty' ], [ section => [ bar => 2 ] ] ], 'parsing to pairs works as expected' for <<'';
+[section]
+foo=1
+;
+[empty]
+;
+[section]
+bar=2
 
 my @error = (
 	'meaningless non-whitespace' => 'foo bar baz quux',

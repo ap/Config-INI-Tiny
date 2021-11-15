@@ -17,7 +17,7 @@ sub parse {
 	my $n = $self->{'line0'}, my @out = my $s = [ $self->{'section0'} ], pos( $_[0] ) = 0;
 	BEGIN { utf8->import if eval { require utf8 } } # 5.6 compat
 	while ( ++$n, $_[0] =~ /$rx/g ) {
-		; defined $2 ? push @$s, $self->{'pairs'} ? [ "$2", "$3" ] : "$2", "$3"
+		; defined $2 ? push @$s, $self->{'pairs'} ? [ "$2", "$3" ] : ( "$2", "$3" )
 		: defined $1 ? push @out, $s = [ "$1" ]
 		: defined $4 ? Carp::croak map { s/"/\\"/g; qq'Bad INI syntax at line $n: "$_"' } "$4"
 		: ()
