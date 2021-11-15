@@ -3,6 +3,15 @@ use 5.006; use strict; use warnings;
 use Test::More tests => 25;
 use Config::INI::Tiny ();
 
+BEGIN { defined &explain or *explain = sub {
+	require Data::Dumper;
+	map {
+		my $dumper = Data::Dumper->new( [$_] )->Indent(1)->Terse(1);
+		$dumper->Sortkeys(1) if $dumper->can( 'Sortkeys' );
+		$dumper->Dump;
+	} @_;
+} }
+
 # mess up the pos() as a cheap fuzz test of the parser
 sub h { pos = rand length; eval { Config::INI::Tiny->new(@_)->to_hash($_) } or ( warn, return ) }
 
@@ -124,7 +133,7 @@ my @error = (
 while ( my ( $desc, $cfg ) = splice @error, 0, 2 ) {
 	$desc = "syntax error for $desc";
 	my ( $h ) = eval { Config::INI::Tiny->new->to_hash( $cfg ) }, my $l = __LINE__;
-	if ( defined $h ) { fail $desc; diag 'got: ', explain $h; next }
+	if ( defined $h ) { fail $desc; diag join ' ', 'got:', explain $h; next }
 	$cfg =~ s/"/\\"/g;
 	like $@, qr/\ABad INI syntax at line 1: "\Q$cfg\E" at ${\__FILE__} line $l\.?\n\z/, $desc;
 }
