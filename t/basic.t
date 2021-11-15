@@ -3,7 +3,8 @@ use 5.006; use strict; use warnings;
 use Test::More tests => 25;
 use Config::INI::Tiny ();
 
-sub h { scalar( /./g ); Config::INI::Tiny->new(@_)->to_hash($_) }
+# mess up the pos() as a cheap fuzz test of the parser
+sub h { pos = rand length; Config::INI::Tiny->new(@_)->to_hash($_) }
 
 is_deeply h, {}, 'empty string' for '';
 
