@@ -4,7 +4,7 @@ use Test::More tests => 25;
 use Config::INI::Tiny ();
 
 # mess up the pos() as a cheap fuzz test of the parser
-sub h { pos = rand length; Config::INI::Tiny->new(@_)->to_hash($_) }
+sub h { pos = rand length; eval { Config::INI::Tiny->new(@_)->to_hash($_) } or ( warn, return ) }
 
 is_deeply h, {}, 'empty string' for '';
 
